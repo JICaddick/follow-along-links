@@ -26,7 +26,36 @@
     </div>
 
   <script>
-    // 👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀
+// first we'll get all of our triggers. The things that will be covered that'll need a background behind them. 
+const triggers = document.querySelectorAll('a');
+const highlight = document.createElement('span');
+// adds a class of highlight to the span.
+highlight.classList.add('highlight');
+// appends the span to the body/ puts it into the DOM.  
+document.body.append(highlight);
+
+function highlightLink() {
+    // console.logging 'this' will show us the element that is being hovered over.
+    // console.log(this);
+    // getBoundingClientRect() will give us the size and location of the element that is being hovered over.
+    const linkcoords = this.getBoundingClientRect();
+    console.log(linkcoords);
+    // now that we have our highlighted element we apply the style to it. We're dynamically applying the style. See style.css, line 34. The transition gives us a slight delay when the highlight moves.
+    const coords = {
+        width: linkcoords.width,
+        height: linkcoords.height,
+        top: linkcoords.top + window.scrollY,
+        left: linkcoords.left + window.scrollX
+    }
+    highlight.style.width = `${coords.width}px`;
+    highlight.style.height = `${coords.height}px`;
+    // we're using the top and left properties to move the highlight to the correct location and adjust it for the length / height of the text. 
+    highlight.style.transform = `translate(${coords.left}px, ${coords.top}px)`;
+}
+// at this point the highlight works but if you scroll down the page the highlight will stay in the same place. We need to add a listener to the window to listen for a scroll event. We'll subtract the scroll difference from the top and left properties. See lines 44-49.
+
+triggers.forEach(a => a.addEventListener('mouseenter', highlightLink));
+
   </script>
 </body>
 </html>
